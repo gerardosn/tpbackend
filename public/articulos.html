@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprender</title>
+    <style>
+        #articulos {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        #articulos div {
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Articulos</h1>
+    <section id="articulos">
+
+    </section>
+
+    <script>
+        fetch('/aprender')
+            .then(response => response.json())
+            .then(data => {
+                const articulos = data;
+                console.log(articulos)
+
+                const articulosContainer = document.querySelector('#articulos');
+
+                articulos.forEach(articulo => {
+                    const aprenderElement = document.createElement('div');
+                    aprenderElement.innerHTML = `
+                        <h2>${articulo.titulo}</h2>
+                        <p>${articulo.cuerpo}</p>
+                        
+                        <img src="${articulo.imagen}" alt="No encontrado: ${articulo.imagen}">
+                       
+                    `;
+                    articulosContainer.appendChild(aprenderElement);
+                });
+            });
+    </script>
+</body>
+</html>
