@@ -91,7 +91,7 @@ app.put('/aprender/:id', async (req, res) => {//obtiene los datos del registro y
             const sql = 'UPDATE aprender SET ? WHERE id_aprender = ?'; //requiere set luego id
             const [rows] = await connection.query(sql, [userData, id]);//reemplaza set luego id
             connection.release();
-            res.json({ mensaje: 'Articulo actualizado', id: rows.insertId});
+            res.json({ mensaje: 'Articulo actualizado'});
         } catch (err) {
             console.error('Error al consultar la base de datos:', err);
             res.status(500).send('Error al consultar la base de datos');
