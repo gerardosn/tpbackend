@@ -4,6 +4,8 @@ import 'dotenv/config'
 
 const app = express();
 const puerto = process.env.PORT || 3000;//puerto dinamico para el deploy
+//en package.json requiere "scripts": {
+    //"start": "node index.js", requerido para iniciar el deploy
 
 
 // middlewares
