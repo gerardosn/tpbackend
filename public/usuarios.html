@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #usuarios {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        #usuarios div {
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
     <h1>Usuarios</h1>
@@ -12,7 +24,7 @@
     </section>
     <script>
         fetch('/usuarios')
-            .then(response => resonse.json())
+            .then(response => response.json())
             .then(data => {
                 const usuarios  = data;
                 console.log(usuarios)
