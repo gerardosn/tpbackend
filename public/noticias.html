@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias</title>
+
+    <style>
+        #noticias {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            
+        }
+
+        #noticias div {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 5px;
+        }
+
+        .txt {
+            margin: 5px;
+            font-size: 20px;
+            color: #000000;
+            text-align: justify;
+            max-height: 140px;
+            overflow: hidden;    
+        }
+
+        h2 {
+            font-size: 50px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        img.styled {
+            border: 3px solid #ccc;
+            border-radius: 10px;
+            width: 95%;
+            height: auto;
+        }
+                
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #a63921;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            margin: 5px;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="noticias">
+        <div id="seccionNews"></div>
+        <script src="./noticias.js"></script>
+    </div>    
+
+</body>
+
+</html>
