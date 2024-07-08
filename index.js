@@ -18,7 +18,108 @@ app.use(express.static('public'))
 //     res.status(200).send('Estoy vivo :p');
 // });
 
+//--seccion usuarios--
 
+app.get('/usuarios', async (req, res) => {
+    const sql = 'SELECT * FROM usuarios'
+    
+    try {
+        const connection = await pool.getConnection();
+        const [rows] = await connection.query(sql);
+        connection.release();
+        res.json(rows);
+    } catch (err) {
+        res.send(500).send('Hubo un error al consultar la base de datos');
+    }
+});
+
+
+    app.get('/usuarios/:id', async (req, res) => {
+        const id = req.params.id
+        const sql = 'SELECT * FROM usuarios WHERE id_usuario = ?';
+
+        try {
+            const connection = await pool.getConnection();
+            const [rows] = await connection.query(sql, [id]);
+            connection.release();
+            if (rows.length === 0) {
+                res.status(404).send('Usuario no encontrado');
+            } else {
+                console.log("UN USUARIO", rows[0])
+                res.json(rows[0]);
+            }
+        } catch (err) {
+            res.send(500).send('Hubo un error al consultar la base de datos');
+        }
+    });
+
+
+app.post('/usuarios', async (req, res) => {
+    const userData = req.body;
+    
+    const sql = 'INSERT INTO usuarios SET ?'; // (name, lastname, mail, password, tipo_usuario) VALUES (?, ?, ?, ?, ?)';
+    
+    
+    try {
+        const connection = await pool.getConnection();
+        const [rows] = await connection.query(sql, [userData]);;
+        connection.release();
+        res.send(`
+            <h1>Usuario creado con id:' ${rows.insertId}</h1>
+                `);
+     
+    } catch (err) {
+        res.send(500).send('Hubo un error al consultar la base de datos');
+    }
+    
+});
+
+
+
+    app.put('/usuarios/:id', async (req, res) => {
+        const id = req.params.id;
+        const userData = req.body; 
+        
+        const sql = 'UPDATE usuarios SET ? WHERE id = ?';
+        
+        
+        try {
+            const connection = await pool.getConnection();
+            const [rows] = await connection.query(sql, [userData, id]);
+            connection.release();
+            console.log(rows)
+            res.send(`
+                <h1>Usuario actualizado con id:' ${id}</h1>
+                    `);
+        } catch (err) {
+            res.send(500).send('Hubo un error al consultar la base de datos');
+        }
+    });
+
+
+app.delete('/usuarios/borrar/:id', async (req, res) => {
+        const id = req.params.id;
+        const sql = 'DELETE FROM usuarios WHERE id = ?';
+    
+        try {
+            const connection = await pool.getConnection();
+            const [rows] = await connection.query(sql, [id]);
+            connection.release();
+            if (rows.affectedRows === 0) {
+                res.send(404).send('User not found');
+            } else {
+                console.log(rows)
+                res.send(`
+                    <h1>Usuario borrado con id:' ${id}</h1>
+                        `);
+            }
+        } catch (err) {
+            res.send(500).send('Hubo un error al consultar la base de datos');
+        }
+ 
+});
+
+//--seccion aprender--
 // leer todos los registros
 app.get('/aprender', async (req, res) => {//async para manejar promesas con try and carch
     
@@ -117,6 +218,83 @@ app.delete('/aprender/borrar/:id', async (req, res) => {//en la url se especific
             res.status(500).send('Error al consultar la base de datos');
         }
  
+});
+
+//--seccion noticias--
+//Leer
+app.get('/noticias', async (req, res) => {
+    
+    try {
+        const connection = await pool.getConnection();
+        const sql = 'SELECT * FROM noticias'
+        const [rows, fields] = await connection.query(sql);
+        connection.release();
+        res.json(rows);
+    } catch (err) {
+        console.error('Error al consultar la base de datos:', err);
+        res.status(500).send('Error al consultar la base de datos');
+    }
+});
+
+//insert
+app.post('/noticias', async (req, res) => {
+    try {
+        const connection = await pool.getConnection();
+
+        const userData = req.body; 
+  
+        const sql = 'INSERT INTO noticias SET ?'; 
+        const [rows] = await connection.query(sql, [userData]);
+        connection.release();
+        res.json({mensaje: 'noticia agregada', id: rows.insertId});
+
+    } catch (err) {
+        console.error('Error al consultar la base de datos:', err);
+        res.status(500).send('Error al consultar la base de datos');
+    }    
+});
+
+//actulizar
+app.put('/noticias/:id', async (req, res) => {
+    try {
+        const connection = await pool.getConnection();
+
+        const id = req.params.id; 
+        const userData = req.body; 
+        
+        const sql = 'UPDATE noticias SET ? WHERE id_noticia = ?'; 
+        const [rows] = await connection.query(sql, [userData, id]);
+        connection.release();
+        if (rows.affectedRows === 0) {
+            res.status(404).send('Noticia no encontrada');
+        } else {
+            res.json({ mensaje: 'Noticia actulizada' });
+        }
+    } catch (err) {
+        console.error('Error al consultar la base de datos:', err);
+        res.status(500).send('Error al consultar la base de datos');
+    }
+});
+
+//borrar
+
+app.delete('/noticias/borrar/:id', async (req, res) => {   
+    try {
+        const connection = await pool.getConnection();
+        const id = req.params.id;
+
+        const sql = 'DELETE FROM noticias WHERE id_noticia = ?';
+        const [rows] = await connection.query(sql, [id]);
+        connection.release();
+        if (rows.affectedRows === 0) {
+            res.status(404).send('Noticia no encontrada');
+        } else {
+            res.json({ mensaje: 'Noticia eliminada' });
+        }
+    } catch (err) {
+        console.error('Error al consultar la base de datos:', err);
+        res.status(500).send('Error al consultar la base de datos');
+    }     
 });
 
 app.listen(puerto, () => {

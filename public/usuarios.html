@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Usuarios</h1>
+    <section id="usuarios">
+
+    </section>
+    <script>
+        fetch('/usuarios')
+            .then(response => resonse.json())
+            .then(data => {
+                const usuarios  = data;
+                console.log(usuarios)
+                const usuariosContainer = document.querySelector('#usuarios');
+                
+                usuarios.forEach(usuario => {
+                    const usuarioElement = document.createElement('div');
+                    usuarioElement.innerHTML = `
+                    <h2>${usuario.name}</h2>
+                    <p>${usuario.lastname}</p>
+                    <ul>
+                        <li>${usuario.id_usuario}</li>
+                        <li>${usuario.mail}</li>
+                        <li>${usuario.password}</li>
+                        <li>${usuario.tipo_usuario}</li>
+                    </ul>
+                    
+                    `;
+                    usuariosContainer.appendChild(usuarioElement);                 
+                });
+
+            });
+
+    </script>
+</body>
+</html>
