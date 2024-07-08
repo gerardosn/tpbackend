@@ -33,11 +33,11 @@
                 usuarios.forEach(usuario => {
                     const usuarioElement = document.createElement('div');
                     usuarioElement.innerHTML = `
-                    <h2>Nobre del usuario: ${usuario.lastname}, ${usuario.name}</h2>
+                    <h2>Nombre del usuario: ${usuario.lastname}, ${usuario.name}.</h2>
                     
                     <ul>
                         <li>Nro de usuario: ${usuario.id_usuario}</li>
-                        <li>E-mail del usuario: ${usuario.mail}</li>
+                        <li>E-mail: ${usuario.mail}</li>
                         <li>Pass: ${usuario.password}</li>
                         <li>Tipo de usuario: ${usuario.tipo_usuario}</li>
                     </ul>
