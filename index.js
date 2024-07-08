@@ -80,7 +80,7 @@ app.post('/usuarios', async (req, res) => {
         const id = req.params.id;
         const userData = req.body; 
         
-        const sql = 'UPDATE usuarios SET ? WHERE id = ?';
+        const sql = 'UPDATE usuarios SET ? WHERE id_usuario = ?';
         
         
         try {
@@ -99,7 +99,7 @@ app.post('/usuarios', async (req, res) => {
 
 app.delete('/usuarios/borrar/:id', async (req, res) => {
         const id = req.params.id;
-        const sql = 'DELETE FROM usuarios WHERE id = ?';
+        const sql = 'DELETE FROM usuarios WHERE id_usuario = ?';
     
         try {
             const connection = await pool.getConnection();
